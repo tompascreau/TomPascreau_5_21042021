@@ -1,5 +1,28 @@
+body
+{
+    object-fit: cover;
+}
+
+header
+{
+    background-color: #F3E9F1;
+    margin: 0;
+}
+
+header img
+{
+    height: 200px;
+    width: auto;
+}
+
 .card-img-top
 {
+    object-fit: cover;
     max-height: 200px;
     overflow: hidden;
+}
+
+.card
+{
+    object-fit: cover;
 }
