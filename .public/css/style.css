@@ -1,0 +1,35 @@
+.carddeck {
+  flex-wrap: wrap;
+}
+
+body {
+  object-fit: cover;
+}
+
+header {
+  background-color: #F3E9F1;
+  margin: 0;
+}
+
+header img {
+  height: 200px;
+  width: auto;
+}
+
+.card-img-top {
+  object-fit: cover;
+  max-height: 200px;
+  overflow: hidden;
+}
+
+.card {
+  max-width: 80px;
+  min-width: 50px;
+  object-fit: cover;
+}
+
+#fifth-item {
+  display: unset;
+}
+
+/*# sourceMappingURL=style.css.map */

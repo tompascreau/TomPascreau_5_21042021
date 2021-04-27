@@ -1,3 +1,8 @@
+.carddeck
+{
+    flex-wrap: wrap;
+}
+
 body
 {
     object-fit: cover;
@@ -24,5 +29,12 @@ header img
 
 .card
 {
+    max-width: 80px;
+    min-width: 50px;
     object-fit: cover;
+}
+
+#fifth-item
+{
+    display: unset;
 }
