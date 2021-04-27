@@ -1,12 +1,3 @@
-.carddeck
-{
-    flex-wrap: wrap;
-}
-
-body
-{
-    object-fit: cover;
-}
 
 header
 {
@@ -20,19 +11,6 @@ header img
     width: auto;
 }
 
-.card-img-top
-{
-    object-fit: cover;
-    max-height: 200px;
-    overflow: hidden;
-}
-
-.card
-{
-    max-width: 80px;
-    min-width: 50px;
-    object-fit: cover;
-}
 
 #fifth-item
 {
