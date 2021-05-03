@@ -8,8 +8,8 @@ header img {
   width: auto;
 }
 
-#fifth-item {
-  display: unset;
+.card {
+  min-height: 380px !important;
 }
 
 /*# sourceMappingURL=style.css.map */
