@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <title>Orinoco</title>
+
+    <script src="script1.js"></script>
 </head>
 <body>
     <header class="container">
@@ -18,37 +20,39 @@
         <section class="container">
             <div class="row">
                 <div class="card col-12 col-md-10 col-lg-8 mx-auto my-5 p-0">
-                    <img class="card-img-top" src="images/oak_1.jpg" alt="table en chêne massif">
+                    <img class="card-img-top" id="image-item" src="images/oak_1.jpg" alt="table en chêne massif">
                     <div class="card-body">
-                        <h5 class="card-title">tabouret</h5>
-                        <p class="card-text">89€</p>
+                        <h5 class="card-title" id="name-item">tabouret</h5>
+                        <p class="card-text" id="price-item">8459€</p>
                     </div>
                     <div class="card-footer container">
                         <div class="row">
-                            <div class="dropdown col-6">
-                                <button class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown">quantité </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">1</a>
-                                    <a class="dropdown-item" href="#">2</a>
-                                    <a class="dropdown-item" href="#">3</a>
-                                    <a class="dropdown-item" href="#">4</a>
-                                    <a class="dropdown-item" href="#">5</a>
-                                    <a class="dropdown-item" href="#">6</a>
-                                    <a class="dropdown-item" href="#">7</a>
-                                    <a class="dropdown-item" href="#">8</a>
-                                    <a class="dropdown-item" href="#">9</a>
-                                    <a class="dropdown-item" href="#">10 (max)</a>
-                                </div>
-                                <p> quantité : <strong>3</strong></p>
+                            <div class="col-6">
+                                <p>
+                                    <label for="quantité">Quantité : </label>
+                                    <select name="quantité" id="quantité">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10 (max)</option>
+                                    </select>
+                                </p>
                             </div>
-                            <div class="dropdown col-6">
-                                <button class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown">choisir mon vernis </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Mat</a>
-                                    <a class="dropdown-item" href="#">Satiné</a>
-                                    <a class="dropdown-item" href="#">Brillant</a>
-                                </div>
-                                <p>vernis : <strong>mat</strong></p>
+                            <div class="col-6">
+                                <p>
+                                    <label for="vernis">Vernis : </label>
+                                    <select name="vernis" id="vernis">
+                                        <option value="mat">mat</option>
+                                        <option value="satiné">satiné</option>
+                                        <option value="brillant">brillant</option>
+                                    </select>
+                                </p>
                             </div>
                             <div class="col-12 mt-3">
                                 <button class="btn btn-primary" type="submit">Ajouter au panier</button>
@@ -64,9 +68,6 @@
             </div>
         </section>
     </main>
-    <footer>
-
-    </footer>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 
