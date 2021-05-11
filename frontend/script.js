@@ -70,7 +70,8 @@ function chargeCartProducts(){
                                 <p class="col-6">quantité : <strong>3</strong></p>
                             </div>
                         </div>
-                        <p class="col-2 text-right">Prix Total : <strong>267€</strong></p>
+                        <p class="col-2 text-right">Prix Total : <strong>267€</strong>
+                        <button type="button" onclick="removeItemCart('${produit._id}')">supprimer</button></p>
                     </div>
                 </div>
                 `;
@@ -78,3 +79,8 @@ function chargeCartProducts(){
         }
     })
 };
+
+function removeItemCart(id){
+    localStorage.removeItem(id);
+    window.location.reload();
+}
