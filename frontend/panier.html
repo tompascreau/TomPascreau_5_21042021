@@ -29,27 +29,26 @@
                 
             </div>
             <div class="col-12 col-lg-6 row">
-                <h3 class="col-12">Total : <strong>1658€</strong></h3>
-                <form method="" action="">
+                <form method="GET" action="commande.html">
                     <div class="form-group">
                         <label for="firstName">Prénom : </label>
-                        <input class="form-control" type="text" name="firstName" id="firstName" required>
+                        <input class="form-control" type="text" name="firstName" id="firstName" required pattern="[A-Za-z' -]+" maxlength="48">
                     </div>
                     <div class="form-group">
                         <label for="lastName">Nom : </label>
-                        <input class="form-control" type="text" name="lastName" id="lastName" required>    
+                        <input class="form-control" type="text" name="lastName" id="lastName" required pattern="[A-Za-z' -]+" maxlength="48">    
                     </div>
                     <div class="form-group">
                         <label for="address">Adresse : </label>
-                        <input class="form-control" type="text" name="address" id="address" required>                
+                        <input class="form-control" type="text" name="address" id="address" required pattern="[0-9A-Za-z' -]+" maxlength="50">                
                     </div>
                     <div class="form-group">
                         <label for="city">Ville : </label>
-                        <input class="form-control" type="text" name="city" id="city" required>
+                        <input class="form-control" type="text" name="city" id="city" required pattern="[A-Za-z' -]+" maxlength="59">
                     </div>
                     <div class="form-group">
                         <label for="email">Email : </label>
-                        <input class="form-control" type="email" name="email" id="email" required>
+                        <input class="form-control" type="email" name="email" id="email" required maxlength="30">
                     </div>
                     <button type="submit" value="valider ma commande" class="btn-primary">valider ma commande</button>
                 </form>

@@ -66,11 +66,8 @@ function chargeCartProducts(){
                                 <h5 class="card-title">${produit.name}</h5>
                             </a>
                             <p class="card-text">${produit.price}</p>
-                            <div class="row">
-                                <p class="col-6">quantité : <strong>3</strong></p>
-                            </div>
                         </div>
-                        <p class="col-2 text-right">Prix Total : <strong>267€</strong>
+                        <p class="col-2 text-right">Prix Total : <strong>${produit.price}</strong>
                         <button type="button" onclick="removeItemCart('${produit._id}')">supprimer</button></p>
                     </div>
                 </div>
@@ -83,4 +80,23 @@ function chargeCartProducts(){
 function removeItemCart(id){
     localStorage.removeItem(id);
     window.location.reload();
-}
+};
+
+function numberItems(){
+
+};
+
+function chargeResumeCommand(){
+    var nameFirst = window.location.href.split('=');
+  //  var firstName = URLSearchParams.get('firstName');
+//    console.log(firstName);
+
+    for (let p of URLSearchParams) {
+        console.log(p);
+      };
+
+    for (const equal of name) {
+        var value = equal.name;
+        console.log(equal);
+    }
+};
