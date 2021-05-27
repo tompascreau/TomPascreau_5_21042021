@@ -81,22 +81,71 @@ function removeItemCart(id){
     localStorage.removeItem(id);
     window.location.reload();
 };
+ 
 
-function numberItems(){
+function validCommand(){
+    event.preventDefault();
+    var validityNames = /^[a-zA-ZéèîïÈÉÏÎ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÈÉÏÎ][a-zéèêàçîï]+)?/;  //mot qui commence par une minuscule, majuscule, ou accentués et qui continue par minuscule ou minuscule accentuée. deuxieme partie pour prendre en compte les noms composés (parenthèses et "?" pour définir le caractère facultatif)
+    //console.log(validityNames);
 
-};
+    formulaire.firstName.value.willValidate;
+    formulaire.lastName.value.willValidate;
+    formulaire.address.value.willValidate;
+    formulaire.city.value.willValidate;
+    formulaire.email.value.willValidate;
 
-function chargeResumeCommand(){
-    var nameFirst = window.location.href.split('=');
-  //  var firstName = URLSearchParams.get('firstName');
-//    console.log(firstName);
-
-    for (let p of URLSearchParams) {
-        console.log(p);
-      };
-
-    for (const equal of name) {
-        var value = equal.name;
-        console.log(equal);
+    if (formulaire.firstName.value.length < 3) {
+        event.preventDefault();
+        alert('nom incorrect');
+        return false;
     }
+
+    firstName = formulaire.firstName.value
+    if (formulaire.checkValidity() == !true) {
+        alert('erreur de syntaxe');
+        return false;
+    }
+
+    console.log(validityNames.test(formulaire.firstName.value));
+    var productId = [];
+    for (const key in localStorage) {
+        if (localStorage.getItem(key)) {
+            productId.push(key);
+            //console.log(key);
+        }
+    };
+    console.log(productId);
+    fetch("http://localhost:3000/api/furniture/order", {
+        method : "POST",
+        headers : {
+            "Content-Type" : "application/json"
+        },
+        body : JSON.stringify({
+            contact : {
+                firstName : formulaire.firstName.value,
+                lastName : formulaire.lastName.value,
+                address : formulaire.address.value,
+                city : formulaire.city.value,
+                email : formulaire.email.value,
+            },
+            product_id : productId,
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+    });
 };
+
+
+
+
+function validNom(){
+    let elementNom = document.getElementById("firstName");
+    const regexName = /[a-zA-Z éèêàîïôû]*/;
+    if(regexName.test(formulaire.firstName.value)){
+       var elementNomError = document.getElementById("error-input-nom");
+       elementNomError.value = "Le format n'est pas correct";
+       elementNomError.style.display = "block"
+    }
+ };
