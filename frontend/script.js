@@ -1,9 +1,9 @@
-function chargeProduit(){
+function chargeProduit(){                                         //chargement des produits sur la page d'accueil en fonction des informations fournies par l'API 
     fetch('http://localhost:3000/api/furniture')
     .then(response => response.json())
     .then(data => {
         console.log(data);
-        for (const produit of data) {
+        for (const produit of data) {                                           //on parcourt la data, on récupere chaque produit puis on place les éléments à l'emplacement leur correspondant 
             document.getElementById('section-product').innerHTML += `
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="card">
@@ -85,7 +85,7 @@ function removeItemCart(id){
 
 function validCommand(){
     event.preventDefault();
-    var validityNames = /^[a-zA-ZéèîïÈÉÏÎ][a-zéèêàçîï]+([-'\s][a-zA-ZéèîïÈÉÏÎ][a-zéèêàçîï]+)?/;  //mot qui commence par une minuscule, majuscule, ou accentués et qui continue par minuscule ou minuscule accentuée. deuxieme partie pour prendre en compte les noms composés (parenthèses et "?" pour définir le caractère facultatif)
+    var validityNames = /[a-zA-Z éèîïÈÉÏÎ]+/;  //mot qui commence par une minuscule, majuscule, ou accentués et qui continue par minuscule ou minuscule accentuée. deuxieme partie pour prendre en compte les noms composés (parenthèses et "?" pour définir le caractère facultatif)
     //console.log(validityNames);
 
     formulaire.firstName.value.willValidate;
@@ -94,14 +94,14 @@ function validCommand(){
     formulaire.city.value.willValidate;
     formulaire.email.value.willValidate;
 
-    if (formulaire.firstName.value.length < 3) {
+    if ((formulaire.firstName.value.length < 3) || (validityNames.exec(formulaire.firstName.value).join('') != formulaire.firstName.value)) {
         event.preventDefault();
         alert('nom incorrect');
         return false;
     }
 
     firstName = formulaire.firstName.value
-    if (formulaire.checkValidity() == !true) {
+    if (formulaire.checkValidity() == false) {
         alert('erreur de syntaxe');
         return false;
     }
@@ -128,12 +128,13 @@ function validCommand(){
                 city : formulaire.city.value,
                 email : formulaire.email.value,
             },
-            product_id : productId,
+            products : productId,
         })
     })
     .then(response => response.json())
     .then(data => {
       console.log(data)
+      window.location.href = 'commande.html?order_id='+data.orderId;
     });
 };
 
