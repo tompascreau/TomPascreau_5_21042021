@@ -21,7 +21,7 @@ function chargeProduit(){                                         //chargement d
     })
 };
 
-function chargeDetailsProduit(){
+function chargeDetailsProduit(){                                                    
     const id = window.location.href.split('id=')[1];
     fetch('http://localhost:3000/api/furniture/'+ id)
     .then(response => response.json())
@@ -60,14 +60,14 @@ function chargeCartProducts(){
                 document.getElementById('section-product').innerHTML += `
                 <div class="card">
                     <div class="card-body row">
-                        <img class="col-2" src="${produit.imageUrl}" alt="table en chêne massif">
-                        <div class="col-8">
+                        <img class="col-7" src="${produit.imageUrl}" alt="table en chêne massif">
+                        <div class="col-5">
                             <a href="product.html?id=${produit._id}" class="stretched-link">
                                 <h5 class="card-title">${produit.name}</h5>
                             </a>
                             <p class="card-text">${produit.price}</p>
                         </div>
-                        <p class="col-2 text-right">Prix Total : <strong>${produit.price}</strong>
+                        <p class="col-12 text-right">Prix Total : <strong>${produit.price}</strong>
                         <button type="button" onclick="removeItemCart('${produit._id}')">supprimer</button></p>
                     </div>
                 </div>
@@ -86,7 +86,7 @@ function removeItemCart(id){
 function validCommand(){
     event.preventDefault();
     var validityNames = /[a-zA-Z çéèîïÈÉÏÎà]+/;
-    var validityAdress = /[0-9a-zA-Z çéèîïÈÉÏÎà]+/;
+    var validityAddress = /[0-9a-zA-Z çéèîïÈÉÏÎà]+/;
     var validityMail = /[0-9a-zA-Z çéèîïÈÉÏÎà.@]+/;
     var testEmail = /@/;
     //console.log(validityNames);
@@ -105,7 +105,7 @@ function validCommand(){
         return false;
     };
 
-    if ((formulaire.address.value.length < 3) || !validityAdress.test(formulaire.address.value) || (validityAdress.exec(formulaire.address.value).join('') != formulaire.address.value)) {
+    if ((formulaire.address.value.length < 3) || !validityAddress.test(formulaire.address.value) || (validityAddress.exec(formulaire.address.value).join('') != formulaire.address.value)) {
         event.preventDefault();
         alert('addresse incorrecte');
         return false;
@@ -130,6 +130,12 @@ function validCommand(){
             console.log(key);
         }
     };
+
+    if (localStorage.length === 0) {
+        alert('panier vide');
+        return false;
+    };
+
     console.log(productId);
     fetch("http://localhost:3000/api/furniture/order", {
         method : "POST",
