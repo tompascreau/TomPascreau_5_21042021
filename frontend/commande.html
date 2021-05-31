@@ -10,7 +10,7 @@
 
     <script src="script.js"></script>
 </head>
-<body onload="chargeResumeCommand(), chargeResumeItems()">
+<body onload="checkCommand()">
     <header class="container">
         <div class="row">
             <div class="text-center col-12">
@@ -25,23 +25,11 @@
         <section class="container">
             <div class="row">
                 <div class="col-12 text-center">
-                    <h4>Merci "prénom" "nom"</h4>
+                    <h4>Merci pour votre commande</h4>
                 </div>
                 <div class="col-12 text-center">
-                    <h6>Envoi de la commande "id" au "adresse", "ville", délai estimé : 5 à 7 jours ouvrés <br>
-                    email de contact : "email"</h6>
+                    <h6>Votre numéro de commande est le <strong id="id">314134243422FEZD143</strong></h6>
                 </div>  
-            </div>
-            <div class="row" id="resume-items">
-                <div class="col-12">
-                    <h5>Vos articles : </h5>
-                </div>
-                <div class="col-6">
-                    <p>chaise</p>
-                </div>
-                <div class="col-6">
-                    <p>prix : 55900</p>
-                </div>
             </div>
         </section>
     </main>

@@ -85,33 +85,49 @@ function removeItemCart(id){
 
 function validCommand(){
     event.preventDefault();
-    var validityNames = /[a-zA-Z éèîïÈÉÏÎ]+/;  //mot qui commence par une minuscule, majuscule, ou accentués et qui continue par minuscule ou minuscule accentuée. deuxieme partie pour prendre en compte les noms composés (parenthèses et "?" pour définir le caractère facultatif)
+    var validityNames = /[a-zA-Z çéèîïÈÉÏÎà]+/;
+    var validityAdress = /[0-9a-zA-Z çéèîïÈÉÏÎà]+/;
+    var validityMail = /[0-9a-zA-Z çéèîïÈÉÏÎà.@]+/;
+    var testEmail = /@/;
     //console.log(validityNames);
 
-    formulaire.firstName.value.willValidate;
-    formulaire.lastName.value.willValidate;
-    formulaire.address.value.willValidate;
-    formulaire.city.value.willValidate;
-    formulaire.email.value.willValidate;
+    console.log(validityNames.test(formulaire.firstName.value));
 
-    if ((formulaire.firstName.value.length < 3) || (validityNames.exec(formulaire.firstName.value).join('') != formulaire.firstName.value)) {
+    if ((formulaire.firstName.value.length < 3) || !validityNames.test(formulaire.firstName.value) || (validityNames.exec(formulaire.firstName.value).join('') != formulaire.firstName.value)) {
+        event.preventDefault();
+        alert('prénom incorrect');
+        return false;
+    };
+
+    if ((formulaire.lastName.value.length < 3) || !validityNames.test(formulaire.lastName.value) || (validityNames.exec(formulaire.lastName.value).join('') != formulaire.lastName.value)) {
         event.preventDefault();
         alert('nom incorrect');
         return false;
-    }
+    };
 
-    firstName = formulaire.firstName.value
-    if (formulaire.checkValidity() == false) {
-        alert('erreur de syntaxe');
+    if ((formulaire.address.value.length < 3) || !validityAdress.test(formulaire.address.value) || (validityAdress.exec(formulaire.address.value).join('') != formulaire.address.value)) {
+        event.preventDefault();
+        alert('addresse incorrecte');
         return false;
-    }
+    };
 
-    console.log(validityNames.test(formulaire.firstName.value));
+    if ((formulaire.city.value.length < 3) || !validityNames.test(formulaire.city.value) || (validityNames.exec(formulaire.city.value).join('') != formulaire.city.value)) {
+        event.preventDefault();
+        alert('ville incorrecte');
+        return false;
+    };
+
+    if ((formulaire.email.value.length < 3) || !validityMail.test(formulaire.email.value) || (validityMail.exec(formulaire.email.value).join('') != formulaire.email.value) || !testEmail.test(formulaire.email.value)) {
+        event.preventDefault();
+        alert('email incorrect');
+        return false;
+    };
+
     var productId = [];
     for (const key in localStorage) {
         if (localStorage.getItem(key)) {
             productId.push(key);
-            //console.log(key);
+            console.log(key);
         }
     };
     console.log(productId);
@@ -135,18 +151,12 @@ function validCommand(){
     .then(data => {
       console.log(data)
       window.location.href = 'commande.html?order_id='+data.orderId;
+      localStorage.clear();
     });
 };
 
 
-
-
-function validNom(){
-    let elementNom = document.getElementById("firstName");
-    const regexName = /[a-zA-Z éèêàîïôû]*/;
-    if(regexName.test(formulaire.firstName.value)){
-       var elementNomError = document.getElementById("error-input-nom");
-       elementNomError.value = "Le format n'est pas correct";
-       elementNomError.style.display = "block"
-    }
- };
+function checkCommand(){
+    const id = window.location.href.split('id=')[1];
+    document.getElementById('id').innerHTML = id;
+};
