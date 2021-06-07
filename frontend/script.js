@@ -1,9 +1,12 @@
-function chargeProduit(){                                         //chargement des produits sur la page d'accueil en fonction des informations fournies par l'API 
+/**
+ * Fonction qui récupère chaque article transmis par l'API et qui crée une card par élément avec l'image de l'article, son nom, son id, et son prix.
+ */
+function chargeProduit(){
     fetch('http://localhost:3000/api/furniture')
     .then(response => response.json())
     .then(data => {
         console.log(data);
-        for (const produit of data) {                                           //on parcourt la data, on récupere chaque produit puis on place les éléments à l'emplacement leur correspondant 
+        for (const produit of data) {
             document.getElementById('section-product').innerHTML += `
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="card">
@@ -20,7 +23,11 @@ function chargeProduit(){                                         //chargement d
         }
     })
 };
-
+ 
+/**
+ * Fonction qui récupère l'Id contenu dans l'url, récupère les informations lui correspondant dans les données transmises par l'API, puis place le nom, l'image, et le prix produit.
+ * Enfin, on parcourt tous les vernis disponibles pour l'élément et on les place dans une liste à choix (select).
+ */
 function chargeDetailsProduit(){                                                    
     const id = window.location.href.split('id=')[1];
     fetch('http://localhost:3000/api/furniture/'+ id)
@@ -38,6 +45,10 @@ function chargeDetailsProduit(){
     })
 };
 
+/**
+ * Fonction qui récupère l'Id de l'élément sur lequel on se trouve (stocké dans l'url), vérifie qu'il ne se trouve pas local storage, et l'ajoute si il n'y est pas.
+ * Si l'élément est déjà présent, la fonction retourne false et une alerte.
+ */
 function addToCart(){
     const id = window.location.href.split('id=')[1];
     if(localStorage.getItem(`${id}`) === null){
@@ -45,10 +56,15 @@ function addToCart(){
     }
     else{
         alert('cet article est déjà au panier');
-        console.log('existe déjà');
+        return false;
     };
 };
 
+/**
+ * Fonction qui récupère chaque Id dans localStorage et qui les fait correspondre aux Id se trouvant dans la data de l'API.
+ * Pour chaque correspondance, une card est créée avec l'image du produit, son Id, son nom et son prix.
+ * La possibilité de retirer l'article du panier est laissée à l'aide d'un button.
+ */
 function chargeCartProducts(){
     fetch('http://localhost:3000/api/furniture')
     .then(response => response.json())
@@ -67,7 +83,6 @@ function chargeCartProducts(){
                             </a>
                             <p class="card-text">${produit.price}</p>
                         </div>
-                        <p class="col-12 text-right">Prix Total : <strong>${produit.price}</strong>
                         <button type="button" onclick="removeItemCart('${produit._id}')">supprimer</button></p>
                     </div>
                 </div>
@@ -77,12 +92,21 @@ function chargeCartProducts(){
     })
 };
 
+
+/**
+ * Fonction qui retire l'Id de l'article de localStorage et qui rafraichit la page pour mettre à jour le panier.
+ */
 function removeItemCart(id){
     localStorage.removeItem(id);
     window.location.reload();
 };
  
-
+/**
+ * Fonction qui vérifie la validité des champs prénom, nom, et ville avec la Regex validityNames, adresse avec la regex validityAddress, et l'adresse mail avec les regexvaliditymail et testEmail. si un champ est incorrect, la fonction revoie false.
+ * Elle met ensuite les Id de chaque article dans un tableau en vérifiant que le panier ne soit pas vide, sinon, elle renvoie false.
+ * Elle fait ensuite une requete fetch avec POST en envoyant l'objet contact contenant les informations du formulaire vérifiées et le tableau productId contenant les id de chaque article de la commande.
+ * La fonction fait enfin une redirection vers la page de confirmation de commande en ajoutant à l'URL l'Id de la commande retourné par L'API. 
+ */
 function validCommand(){
     event.preventDefault();
     var validityNames = /[a-zA-Z çéèîïÈÉÏÎà]+/;
@@ -161,7 +185,9 @@ function validCommand(){
     });
 };
 
-
+/**
+ * La fonction récupère l'Id stocké dans l'URL et le place dans l'espace lui correspondant.
+ */
 function checkCommand(){
     const id = window.location.href.split('id=')[1];
     document.getElementById('id').innerHTML = id;
