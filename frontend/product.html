@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" />
 
     <title>Orinoco</title>
 
-    <script src="script.js"></script>
+    <script src="javascript/script.js"></script>
 </head>
 <body onload="chargeDetailsProduit()">
     <header class="container">
@@ -41,6 +42,15 @@
                             </div>
                             <div class="col-6" onclick="addToCart()">
                                 <button class="btn btn-primary" type="submit" id="add-to-cart">Ajouter au panier</button>
+                            </div>
+                            <div class="col-4">
+                                <p>quantité au panier : <strong id="quantity-cart">0</strong></p>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-outline-danger" onclick="decreaseToCart()"><i class="fas fa-chevron-down"></i></button>
+                            </div>
+                            <div class="col-5" onclick="removeItemProduct()">
+                                <button type="button">supprimer</button></p>
                             </div>
                         </div>
                     </div>

@@ -8,7 +8,7 @@
 
     <title>Orinoco</title>
 
-    <script src="script.js"></script>
+    <script src="javascript/script.js"></script>
 
 </head>
 <body onload="chargeCartProducts()">
@@ -29,6 +29,9 @@
                 
             </div>
             <div class="col-12 col-lg-6 row">
+                <div>
+                    <h4>Total : <strong id="total-command"></strong></h4>
+                </div>
                 <form action="commande.html" onsubmit="validCommand()" id="formulaire" name="formulaire" class="col-12">
                     <div class="form-group">
                         <label for="firstName">Prénom : </label>
@@ -48,7 +51,7 @@
                     </div>
                     <div class="form-group">
                         <label for="email">Email : </label>
-                        <input class="form-control" type="email" name="email" id="email" required>
+                        <input class="form-control" type="email" name="email" id="email">
                     </div>
                     <button type="submit" value="valider ma commande" class="btn-primary">Valider ma commande</button>
                 </form>

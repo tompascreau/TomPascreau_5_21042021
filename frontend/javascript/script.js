@@ -1,8 +1,10 @@
+const url = 'http://localhost:3000/api/furniture'; 
+
 /**
  * Fonction qui récupère chaque article transmis par l'API et qui crée une card par élément avec l'image de l'article, son nom, son id, et son prix.
  */
 function chargeProduit(){
-    fetch('http://localhost:3000/api/furniture')
+    fetch(url)
     .then(response => response.json())
     .then(data => {
         console.log(data);
@@ -15,7 +17,7 @@ function chargeProduit(){
                         <a href="product.html?id=${produit._id}" class="stretched-link" id="link-first-item">
                             <h5 class="card-title" id="name-first-item">${produit.name}</h5>
                         </a>
-                        <p class="card-text" id="price-first-item">${produit.price}</p>
+                        <p class="card-text" id="price-first-item">${produit.price/100}€</p>
                     </div>
                 </div>
             </div>
@@ -23,21 +25,21 @@ function chargeProduit(){
         }
     })
 };
- 
+
 /**
  * Fonction qui récupère l'Id contenu dans l'url, récupère les informations lui correspondant dans les données transmises par l'API, puis place le nom, l'image, et le prix produit.
  * Enfin, on parcourt tous les vernis disponibles pour l'élément et on les place dans une liste à choix (select).
  */
 function chargeDetailsProduit(){                                                    
     const id = window.location.href.split('id=')[1];
-    fetch('http://localhost:3000/api/furniture/'+ id)
+    fetch(url + '/' + id)
     .then(response => response.json())
     .then(data => {
         console.log(data);
         var Data = data;
         document.getElementById('image-item').setAttribute("src", `${Data.imageUrl}`);
         document.getElementById('name-item').innerHTML = Data.name;
-        document.getElementById('price-item').innerHTML = Data.price;
+        document.getElementById('price-item').innerHTML = `${Data.price/100}€`;
         for (const varnish of Data.varnish) {
             console.log(varnish);
             document.getElementById('vernis').innerHTML += `<option value="mat">${varnish}</option>`;
@@ -45,6 +47,7 @@ function chargeDetailsProduit(){
     })
 };
 
+var quantityInCart = 0;
 /**
  * Fonction qui récupère l'Id de l'élément sur lequel on se trouve (stocké dans l'url), vérifie qu'il ne se trouve pas local storage, et l'ajoute si il n'y est pas.
  * Si l'élément est déjà présent, la fonction retourne false et une alerte.
@@ -53,11 +56,41 @@ function addToCart(){
     const id = window.location.href.split('id=')[1];
     if(localStorage.getItem(`${id}`) === null){
         localStorage.setItem(`${id}`, `${id}`);
+        quantityInCart++;
+        document.getElementById('quantity-cart').innerHTML = (quantityInCart);
+        localStorage.setItem(`${id}/quantity`, quantityInCart);
     }
     else{
-        alert('cet article est déjà au panier');
-        return false;
+        quantityInCart++;
+        document.getElementById('quantity-cart').innerHTML = (quantityInCart);
+        localStorage.setItem(`${id}/quantity`, quantityInCart);
     };
+};
+
+function removeItemProduct(){
+    const id = window.location.href.split('id=')[1];
+    localStorage.removeItem(id);
+    localStorage.removeItem(`${id}/quantity`);
+    quantityInCart = 0;
+    document.getElementById('quantity-cart').innerHTML = quantityInCart;
+};
+
+function decreaseToCart(){
+    const id = window.location.href.split('id=')[1];
+    if (quantityInCart > 1){
+        quantityInCart--;
+        document.getElementById('quantity-cart').innerHTML = quantityInCart;
+        localStorage.setItem(`${id}/quantity`, quantityInCart);
+    }
+    else if ( quantityInCart === 1){
+        quantityInCart--;
+        document.getElementById('quantity-cart').innerHTML = quantityInCart;
+        localStorage.removeItem(id);
+        localStorage.removeItem(`${id}/quantity`);
+    }
+    else{
+        return false;
+    }
 };
 
 /**
@@ -66,29 +99,35 @@ function addToCart(){
  * La possibilité de retirer l'article du panier est laissée à l'aide d'un button.
  */
 function chargeCartProducts(){
-    fetch('http://localhost:3000/api/furniture')
+    var totalPrice = 0;
+    fetch(url)
     .then(response => response.json())
     .then(data => {
         console.log(data);
         for (const produit of data) {
             var idData = produit._id;
+            var quantityData = produit._id +'/quantity';
             if (localStorage.getItem(`${idData}`) !== null) {
+                quantity = localStorage.getItem(quantityData);
+                totalPrice = totalPrice + produit.price*quantity/100;
                 document.getElementById('section-product').innerHTML += `
                 <div class="card">
                     <div class="card-body row">
-                        <img class="col-7" src="${produit.imageUrl}" alt="table en chêne massif">
+                        <img class="col-5" src="${produit.imageUrl}" alt="table en chêne massif">
                         <div class="col-5">
                             <a href="product.html?id=${produit._id}" class="stretched-link">
                                 <h5 class="card-title">${produit.name}</h5>
                             </a>
-                            <p class="card-text">${produit.price}</p>
+                            <p class="card-text">${produit.price/100}€ x ${quantity}</p>
+                            <p>Total : ${produit.price*quantity/100}€</p>
                         </div>
-                        <button type="button" onclick="removeItemCart('${produit._id}')">supprimer</button></p>
+                        <button type="button" class="col-2" onclick="removeItemCart('${produit._id}')">supprimer</button></p>
                     </div>
                 </div>
                 `;
             }
         }
+        document.getElementById('total-command').innerHTML = totalPrice + '€';
     })
 };
 
@@ -111,7 +150,7 @@ function validCommand(){
     event.preventDefault();
     var validityNames = /[a-zA-Z çéèîïÈÉÏÎà]+/;
     var validityAddress = /[0-9a-zA-Z çéèîïÈÉÏÎà]+/;
-    var validityMail = /[0-9a-zA-Z çéèîïÈÉÏÎà.@]+/;
+    var validityMail = /[0-9a-zA-Z çéèîïÈÉÏÎà.@-_]+/;
     var testEmail = /@/;
     //console.log(validityNames);
 
@@ -161,7 +200,7 @@ function validCommand(){
     };
 
     console.log(productId);
-    fetch("http://localhost:3000/api/furniture/order", {
+    fetch(url + '/order', {
         method : "POST",
         headers : {
             "Content-Type" : "application/json"
