@@ -10,7 +10,7 @@ header img
     width: auto;
 }
 
-.card
+.card-home
 {
     min-height: 380px !important;
 }
@@ -19,4 +19,9 @@ header img
 {
     width: auto !important;
     height: auto !important;
+}
+
+.card-cart
+{
+    max-height: 60px;
 }

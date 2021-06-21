@@ -7,11 +7,10 @@ function chargeProduit(){
     fetch(url)
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         for (const produit of data) {
             document.getElementById('section-product').innerHTML += `
             <div class="col-12 col-md-6 col-lg-3">
-                <div class="card">
+                <div class="card card-home">
                     <img class="card-img-top" src="${produit.imageUrl}" alt="table en chêne massif" id="image-first-item">
                     <div class="card-body">
                         <a href="product.html?id=${produit._id}" class="stretched-link" id="link-first-item">
@@ -24,6 +23,10 @@ function chargeProduit(){
             `;
         }
     })
+    .catch(() => {
+        alert('données inaccessibles');
+        return(false);
+    })
 };
 
 /**
@@ -35,19 +38,22 @@ function chargeDetailsProduit(){
     fetch(url + '/' + id)
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         var Data = data;
         document.getElementById('image-item').setAttribute("src", `${Data.imageUrl}`);
         document.getElementById('name-item').innerHTML = Data.name;
         document.getElementById('price-item').innerHTML = `${Data.price/100}€`;
         for (const varnish of Data.varnish) {
-            console.log(varnish);
             document.getElementById('vernis').innerHTML += `<option value="mat">${varnish}</option>`;
         }
     })
+    .catch(() => {
+        alert('données inaccessibles');
+        return(false);
+    })
 };
 
-var quantityInCart = 0;
+var quantityInCart = 0; //compteur de quantité d'articles séléctionnés 
+
 /**
  * Fonction qui récupère l'Id de l'élément sur lequel on se trouve (stocké dans l'url), vérifie qu'il ne se trouve pas local storage, et l'ajoute si il n'y est pas.
  * Si l'élément est déjà présent, la fonction retourne false et une alerte.
@@ -67,6 +73,9 @@ function addToCart(){
     };
 };
 
+/**
+ * fonction qui supprime l'élément du panier au moment du clic sur le boutton supprimer, elle remet ensuite le compteur de produits au panier à 0.
+ */
 function removeItemProduct(){
     const id = window.location.href.split('id=')[1];
     localStorage.removeItem(id);
@@ -75,6 +84,10 @@ function removeItemProduct(){
     document.getElementById('quantity-cart').innerHTML = quantityInCart;
 };
 
+/**
+ * fonction qui contrôle le nombre d'itérations du produit identifié dans l'url dans localStorage et qui en supprime une si il y en a au moins une présente, elle met ensuite à jour le compteur de produits au panier.
+ * fonction appelée au clic.
+ */
 function decreaseToCart(){
     const id = window.location.href.split('id=')[1];
     if (quantityInCart > 1){
@@ -103,7 +116,6 @@ function chargeCartProducts(){
     fetch(url)
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         for (const produit of data) {
             var idData = produit._id;
             var quantityData = produit._id +'/quantity';
@@ -111,8 +123,8 @@ function chargeCartProducts(){
                 quantity = localStorage.getItem(quantityData);
                 totalPrice = totalPrice + produit.price*quantity/100;
                 document.getElementById('section-product').innerHTML += `
-                <div class="card">
-                    <div class="card-body row">
+                <div class="card card-cart">
+                    <div class="card-body card-body-cart row">
                         <img class="col-5" src="${produit.imageUrl}" alt="table en chêne massif">
                         <div class="col-5">
                             <a href="product.html?id=${produit._id}" class="stretched-link">
@@ -121,13 +133,17 @@ function chargeCartProducts(){
                             <p class="card-text">${produit.price/100}€ x ${quantity}</p>
                             <p>Total : ${produit.price*quantity/100}€</p>
                         </div>
-                        <button type="button" class="col-2" onclick="removeItemCart('${produit._id}')">supprimer</button></p>
+                        <button type="button" class="col-3 btn-cart" onclick="removeItemCart('${produit._id}')">supprimer</button></p>
                     </div>
                 </div>
                 `;
             }
         }
         document.getElementById('total-command').innerHTML = totalPrice + '€';
+    })
+    .catch(() => {
+        alert('données inaccessibles');
+        return(false);
     })
 };
 
@@ -148,13 +164,11 @@ function removeItemCart(id){
  */
 function validCommand(){
     event.preventDefault();
-    var validityNames = /[a-zA-Z çéèîïÈÉÏÎà]+/;
-    var validityAddress = /[0-9a-zA-Z çéèîïÈÉÏÎà]+/;
-    var validityMail = /[0-9a-zA-Z çéèîïÈÉÏÎà.@-_]+/;
+    var validityNames = /[a-zA-Z \-çéèîïÈÉÏÎàâäë]+/;
+    var validityAddress = /[0-9a-zA-Z \-çéèîïÈÉÏÎàâäë]+/;
+    var validityMail = /[0-9a-zA-Z \-çéèîïÈÉÏÎàâäë.@_]+/;
     var testEmail = /@/;
-    //console.log(validityNames);
 
-    console.log(validityNames.test(formulaire.firstName.value));
 
     if ((formulaire.firstName.value.length < 3) || !validityNames.test(formulaire.firstName.value) || (validityNames.exec(formulaire.firstName.value).join('') != formulaire.firstName.value)) {
         event.preventDefault();
@@ -190,7 +204,6 @@ function validCommand(){
     for (const key in localStorage) {
         if (localStorage.getItem(key)) {
             productId.push(key);
-            console.log(key);
         }
     };
 
@@ -199,7 +212,6 @@ function validCommand(){
         return false;
     };
 
-    console.log(productId);
     fetch(url + '/order', {
         method : "POST",
         headers : {
@@ -218,10 +230,13 @@ function validCommand(){
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data)
       window.location.href = 'commande.html?order_id='+data.orderId;
       localStorage.clear();
-    });
+    })
+    .catch(() => {
+        alert('données inaccessibles ');
+        return(false);
+    })
 };
 
 /**

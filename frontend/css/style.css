@@ -1,15 +1,53 @@
-header {
-  background-color: #F3E9F1;
-  margin: 0;
+header
+{
+    background-color: #F3E9F1;
+    margin: 0;
 }
 
-header img {
-  height: 200px;
-  width: auto;
+header img
+{
+    height: 200px;
+    width: auto;
 }
 
-.card {
-  min-height: 380px !important;
+.card-home
+{
+    min-height: 380px !important;
 }
 
-/*# sourceMappingURL=style.css.map */
+.img
+{
+    width: auto !important;
+    height: auto !important;
+}
+
+.card-cart
+{
+  max-height: 200px;
+  margin-bottom: 10px;
+}
+
+.card-body-cart
+{
+  max-height: 100%;
+  overflow: hidden;
+  padding-top: 0% !important;
+  padding-bottom: 0% !important;
+}
+
+.card-body-cart img
+{
+  margin: auto;
+  padding: 0%;
+  height: auto !important;
+  width: auto !important;
+  max-width: 140px;
+  max-height: 120px;
+}
+
+.btn-cart
+{
+  min-width: 110px;
+  max-height: 60px;
+  margin: auto;
+}
