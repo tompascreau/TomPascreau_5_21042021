@@ -232,7 +232,11 @@ function validCommand(){
     .then(data => {
       window.location.href = 'commande.html?order_id='+data.orderId;
       localStorage.clear();
-    });
+    })
+    .catch(() => {
+        alert('données inaccessibles');
+        return(false);
+    })
 };
 
 /**
