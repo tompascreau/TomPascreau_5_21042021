@@ -202,7 +202,7 @@ function validCommand(){
 
     var productId = [];
     for (const key in localStorage) {
-        if (localStorage.getItem(key)) {
+        if (localStorage.getItem(key) && key.indexOf('/') == -1) {
             productId.push(key);
         }
     };
@@ -230,8 +230,8 @@ function validCommand(){
     })
     .then(response => response.json())
     .then(data => {
-      window.location.href = 'commande.html?order_id='+data.orderId;
-      localStorage.clear();
+        window.location.href = 'commande.html?order_id='+data.orderId;
+        localStorage.clear();
     })
     .catch(() => {
         alert('données inaccessibles');
